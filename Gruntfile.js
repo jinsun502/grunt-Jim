@@ -75,6 +75,24 @@ module.exports = function(grunt) {
                 ]
             }
         },
+        watch:{
+            css:{
+                files:['src/css/*.css'],
+                tasks:['copy:css']
+            },
+            templates:{
+                files:['src/*.html'],
+                tasks:['copy:templates']
+            },
+            images:{
+                files:['src/images/**'],
+                tasks:['copy:images']
+            },
+            js:{
+                files:['src/js/*.js'],
+                tasks:['copy:js']
+            }
+        },
         cssmin: {
             target: {
                 files: [{
@@ -99,7 +117,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     // Default task(s).
-    grunt.registerTask('default', ['jshint','jsbeautifier','copy','autoprefixer']);
+    grunt.registerTask('default', ['jshint','jsbeautifier','copy','autoprefixer','watch']);
     grunt.registerTask('deploy', ['cssmin','uglify']);
 
 };
