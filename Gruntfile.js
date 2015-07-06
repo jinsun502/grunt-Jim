@@ -78,7 +78,7 @@ module.exports = function(grunt) {
         watch:{
             css:{
                 files:['src/css/*.css'],
-                tasks:['copy:css']
+                tasks:['copy:css','autoprefixer']
             },
             templates:{
                 files:['src/*.html'],
@@ -90,7 +90,7 @@ module.exports = function(grunt) {
             },
             js:{
                 files:['src/js/*.js'],
-                tasks:['copy:js']
+                tasks:['jshint','jsbeautifier','copy:js']
             }
         },
         cssmin: {
@@ -103,9 +103,13 @@ module.exports = function(grunt) {
                     ext: '.css'
                 }]
             }
+        },
+        githooks: {
+            all: {
+                'pre-commit': 'jshint jsbeautifier'
+            }
         }
     });
-
     // Load the plugin that provides the "uglify" task.
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
@@ -115,9 +119,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-autoprefixer');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-githooks');
 
     // Default task(s).
-    grunt.registerTask('default', ['jshint','jsbeautifier','copy','autoprefixer','watch']);
-    grunt.registerTask('deploy', ['cssmin','uglify']);
+    grunt.registerTask('default', ['githooks','watch']);
+    grunt.registerTask('deploy', ['jshint','jsbeautifier','copy','autoprefixer','cssmin','uglify']);
 
 };
